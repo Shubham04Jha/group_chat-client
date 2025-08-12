@@ -1,4 +1,8 @@
 import { useState, type Dispatch, type SetStateAction } from "react"
+import { backendUrl } from "../config";
+import { toast } from "react-toastify";
+import { copyJoinInfo } from "../util/copytoClipboard";
+import { useNavigate } from "react-router-dom";
 
 const buttonStyle = `hover:cursor-pointer rounded-md px-2 py-1 text-xl w-24 text-center outline-2`
 
@@ -51,12 +55,33 @@ export const Home = ()=>{
 const Create = ()=>{
     const buttonStyle = `outline-2 hover:cursor-pointer rounded-md w-32 min-h-12 bg-yellow-300 flex items-center justify-center`;
     const paraStyle = ` text-center my-auto font-bold`;
+    const navigate = useNavigate();
+    const handleCreate = async ()=>{
+        const response = await fetch('http://'+backendUrl+'/makeRoom');
+        try {
+            const parsedResponse = await response.json();
+            if(!response.ok){
+                toast.error(parsedResponse.message||'Error');
+                return;
+            }
+            const { id ,code} = parsedResponse;
+            localStorage.setItem('id',id);
+            localStorage.setItem('code',code);
+            copyJoinInfo();
+        } catch (error) {
+            toast.error('Error Occurred Try after sometime');
+        }
+    }
+    const handleJoin = async ()=>{
+        await handleCreate();
+        navigate('/room');
+    }
     return(
         <>
-            <div className={`${buttonStyle}`}>
+            <div className={`${buttonStyle}`} onClick={handleCreate}>
                 <p className={`${paraStyle}`} >Create Room <br/> for Later</p>
             </div>
-            <div className={`${buttonStyle}`}>
+            <div className={`${buttonStyle}`} onClick={handleJoin}>
                 <p className={`${paraStyle}`} >Create and Join</p>
             </div>
         </>

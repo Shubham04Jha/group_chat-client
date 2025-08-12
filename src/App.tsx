@@ -4,6 +4,7 @@ import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import { Home } from './pages/Home'
 import { PageNotFound } from './pages/PageNotFound'
 import { Room } from './pages/Room'
+import { ToastContainer, Bounce } from 'react-toastify'
 
 
 const AppContent = ()=>{
@@ -23,6 +24,19 @@ const App = ()=>{
   return(
     <>
     <AppContent />
+    <ToastContainer
+      position="bottom-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick={false}
+      rtl={false}
+      pauseOnFocusLoss={false}
+      draggable
+      pauseOnHover
+      theme="light"
+      transition={Bounce}
+      />
     </>
   )
 }
