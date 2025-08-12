@@ -31,7 +31,7 @@ const TopBar = ({toggle,setToggle}: TopBarProps)=>{
 export const Home = ()=>{
     const [join,setJoin]  = useState<boolean>(true);
     return(
-        <div className="w-full h-screen">
+        <div className="w-full h-screen flex justify-center items-center">
             <div className="h-96 w-72 rounded-3xl outline-2 grid grid-rows-12">
                 <TopBar toggle={join} setToggle={setJoin}/>
                 <div className=" row-span-10  p-8">

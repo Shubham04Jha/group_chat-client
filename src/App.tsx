@@ -3,6 +3,7 @@ import './App.css'
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import { Home } from './pages/Home'
 import { PageNotFound } from './pages/PageNotFound'
+import { Room } from './pages/Room'
 
 
 
@@ -11,7 +12,7 @@ const AppContent = ()=>{
     <BrowserRouter>
       <Routes>
         <Route path={'/'} element={<Home />} />
-        <Route path={'/room'} element={<></>}/>
+        <Route path={'/room'} element={<Room />}/>
         <Route path={'*'} element={<PageNotFound />}/>
       </Routes>
     </BrowserRouter>
