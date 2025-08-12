@@ -1,4 +1,4 @@
-import { useState, type Dispatch, type SetStateAction } from "react"
+import { useRef, useState, type Dispatch, type SetStateAction } from "react"
 import { backendUrl } from "../config";
 import { toast } from "react-toastify";
 import { copyJoinInfo } from "../util/copytoClipboard";
@@ -93,11 +93,24 @@ const Join = ()=>{
     `;
     const buttonStyle = `outline-2 hover:cursor-pointer rounded-md px-2 py-1 w-20 bg-yellow-300 flex items-center justify-center`;
     const paraStyle = ` text-center my-auto font-bold`;
+    const idRef = useRef<HTMLInputElement>(null);
+    const codeRef = useRef<HTMLInputElement>(null);
+    const navigate = useNavigate();
+    const handleJoin = ()=>{
+        if(idRef.current&&codeRef.current){
+            let id = idRef.current.value.replace(/\s/g,'');
+            let code = codeRef.current.value.replace(/\s/g,'');
+            if(!id||!code) return;
+            localStorage.setItem('id',id);
+            localStorage.setItem('code',code);
+            navigate('/room');
+        }
+    }
     return(
         <>
-            <input type="text" placeholder="Room id" className={` ${inputStyle} `} />
-            <input type="text" placeholder="Code" className={` ${inputStyle} ` } />
-            <div className={` ${buttonStyle}  `}>
+            <input type="text" ref={idRef} placeholder="Room id" className={` ${inputStyle} `} />
+            <input type="text" ref={codeRef} placeholder="Code" className={` ${inputStyle} ` } />
+            <div className={` ${buttonStyle}  `} onClick={handleJoin}>
                 <p className={`${paraStyle}`}>Join</p>
             </div>
         </>

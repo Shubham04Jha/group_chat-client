@@ -29,7 +29,9 @@ export const Room = ()=>{
         func();
     },[])
     if(error){
-        <GOHomePage message="Error Occured please go to home page" />
+        localStorage.removeItem('id');
+        localStorage.removeItem('code');
+        return <GOHomePage message="Error Occured please go to home page" />
     }
     return(
         <div className="h-screen w-full flex justify-center items-center ">
