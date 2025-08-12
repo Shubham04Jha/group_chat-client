@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { SendIcon } from "../components/icons"
 import { GOHomePage } from "./GOHomePage"
-import { backendUrl } from "../config";
+import { backendUrl,socketUrl } from "../config";
 
 
 export const Room = ()=>{
@@ -52,11 +52,12 @@ const Message = ({message}:{message:string})=>{
 
 const ChatInterface = ({id,code}:{id:string, code: string})=>{
     const socketRef = useRef<WebSocket>(null);
-    const inputRef = useRef<HTMLTextAreaElement>(null);
+    // const inputRef = useRef<HTMLTextAreaElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
     const [messages,setMessages] = useState<string[]>([]);
     const handleSend = ()=>{
         const message = inputRef.current?.value||null;
-        if(socketRef.current&&!message){
+        if(socketRef.current&&message){
             socketRef.current.send(JSON.stringify({
                     type:'message',
                     message
@@ -65,7 +66,8 @@ const ChatInterface = ({id,code}:{id:string, code: string})=>{
         }
     }
     useEffect(()=>{
-        const ws = new WebSocket('ws://'+backendUrl);
+        if(!id||!code) return;
+        const ws = new WebSocket('ws://'+socketUrl);
         socketRef.current = ws;
         ws.onopen = ()=>{
             ws.send(JSON.stringify({type:'auth',id,code}));
@@ -78,7 +80,7 @@ const ChatInterface = ({id,code}:{id:string, code: string})=>{
             ws.close();
             socketRef.current = null;
         }
-    },[])
+    },[id,code])
     return(
         <div className=" h-full w-full rounded-lg grid grid-rows-12">
             <div className={`row-span-11 bg-gray-100 outline-1 rounded-lg`}>
@@ -92,7 +94,7 @@ const ChatInterface = ({id,code}:{id:string, code: string})=>{
             </div>
             <div className="row-start-12 flex justify-between outline-1 rounded-lg">
                 <div className="flex-4 bg-gray-200">
-                    <textarea ref={inputRef} placeholder="Message" className="text-4xl w-full h-full 
+                    <input ref={inputRef} placeholder="Message" className="text-4xl w-full h-full 
                     flex items-center font-bold text-black pt-4 pl-1 " onKeyDown={(ev)=>{
                         if(ev.key=='Enter'){
                             handleSend();

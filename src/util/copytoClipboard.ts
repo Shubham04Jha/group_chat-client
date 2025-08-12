@@ -14,6 +14,6 @@ export const copyJoinInfo = ()=>{
     const id = localStorage.getItem('id'); 
     const code = localStorage.getItem('code');
     const text = `id: ${id} 
-                  code: ${code}`;
+    code: ${code}`;
     copyToClipBoard(text,'Copied joining info on clipboard');
 }
