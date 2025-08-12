@@ -60,7 +60,8 @@ const ChatInterface = ({id,code}:{id:string, code: string})=>{
             socketRef.current.send(JSON.stringify({
                     type:'message',
                     message
-                }));
+            }));
+            if(inputRef.current) inputRef.current.value = '';
         }
     }
     useEffect(()=>{
@@ -92,7 +93,11 @@ const ChatInterface = ({id,code}:{id:string, code: string})=>{
             <div className="row-start-12 flex justify-between outline-1 rounded-lg">
                 <div className="flex-4 bg-gray-200">
                     <textarea ref={inputRef} placeholder="Message" className="text-4xl w-full h-full 
-                    flex items-center font-bold text-black pt-4 pl-1 " />
+                    flex items-center font-bold text-black pt-4 pl-1 " onKeyDown={(ev)=>{
+                        if(ev.key=='Enter'){
+                            handleSend();
+                        }
+                    }} />
                 </div>
                 <div className={`bg-green-300 flex-1 flex justify-center items-center rounded-lg py-1 px-2 `} onClick={handleSend}>
                     <div className={`w-12 text-white`} >

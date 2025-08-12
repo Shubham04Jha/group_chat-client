@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState,type Dispatch, type SetStateAction } from 'react'
 import './App.css'
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import { Home } from './pages/Home'
@@ -8,7 +7,6 @@ import { ToastContainer, Bounce } from 'react-toastify'
 
 
 const AppContent = ()=>{
-  const [roomDetail, setRoomDetail] = useState({});
   return(
     <BrowserRouter>
       <Routes>
